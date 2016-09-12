@@ -54,13 +54,20 @@ router.post('/api/gcm/register', function(req, res) {
                   console.log(err);
                   res.json({ code: 400, message: 'Couldn\'t register... :(' });
               }
-              res.send();
+              res.send({code : 201});
           });
 });
 
 router.get('/api/users', function(req, res) {
     registrations.find(function (err, registrations) { 
-        console.log("users are: " + registrations);
+        if(!err) {
+            console.log("users are: " + registrations);
+            res.json({ code: 201, message: 'registered successfully! :)' , data: registrations });
+        } else {
+            console.log(err);
+            res.json({ code: 400, message: 'Couldn\'t register... :(' });
+        }
+        res.send();
     });
 });
 
