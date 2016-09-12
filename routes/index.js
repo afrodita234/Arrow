@@ -46,7 +46,27 @@ router.get('/api/gcm/register', function(req, res) {
 
 router.post('/api/gcm/register', function(req, res) {
     console.log(req);
-    /*registrations.update({hardwareId : req.body.hardwareId},
+    var sender = new gcm.Sender(config.serverApi);
+
+    // Initialize Message object
+    var message = new gcm.Message();
+    message.addData('message', "No , i am the king");
+    
+    // Add the registration tokens of the devices you want to send to
+    var registrationTokens = [];
+    registrationTokens.push(req.body.registrationTokenId);
+    
+
+    // Send the message
+    // ... trying only once
+    sender.send(message, { registrationTokens: registrationTokens },10, function(err, response) {
+        if(err) console.error(err);
+        else {
+            console.log(response);
+            // res.json(response);
+        }
+    });
+    registrations.update({hardwareId : req.body.hardwareId},
          req.body, {upsert:true}, function(err, result) {
              if(!err) {
                  console.log(result);
@@ -55,8 +75,7 @@ router.post('/api/gcm/register', function(req, res) {
                  console.log(err);
                  res.json({ code: 400, message: 'Couldn\'t register... :(' });
              }
-         });*/
-    
+         });
 });
 
 // Update registration (tokenId only) ////////////////////
