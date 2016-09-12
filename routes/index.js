@@ -3,7 +3,8 @@ var mongoose = require('mongoose')
 var router = express.Router();
 var gcm = require('node-gcm');
 var request = require('request');
-
+var launchesData = require('../data/launchesData');
+var sender = new gcm.Sender("AIzaSyDKFQ2fKhJJLhrj5d9JvViUD3SebRheeh0");
 var options = {
   user: 'admin',
   pass: 'admin'
@@ -11,29 +12,35 @@ var options = {
 
 mongoose.connect('mongodb://ds147985.mlab.com:47985/arrow' , options);
 
-router.get('/', function(req, res, next) {
-  //setInterval(function () { 
-  //    sendLaunch();
-  //  }, 30000); 
+
+setInterval(function () { 
+    getJson();
+}, 2000);
+
+router.get('/', function(req, res, next) { 
   res.render('index', { title: 'Express' });
 });
 
-/*var getJson = function () {
+function getJson() {
     //writeLog('getJson');
-    $.ajax({
-        url: "http://oref.co.il/WarningMessages/Alert/alerts.json?v=1",
-        dataType: "json",
-        cache: true,//true,
-        success: function (data) {
-            //writeLog("getJson : success : data = " + data.data);
-            // To Do : send launch
-        },
-        error: function (requestObject, error, errorThrown) {
-            //writeLog("getJson : error : data = " + errorThrown);
-            return;
-        }
+    request('http://www.oref.org.il/WarningMessages/Alert/alerts.json?v=1', function (error, response, body) {
+    //Check for error
+    if(error){
+        return console.log('Error:', error);
+    }
+
+    //Check for right status code
+    if(response.statusCode !== 200){
+        return console.log('Invalid Status Code Returned:', response.statusCode);
+    } 
+    var hashLaunches = launchesData.hash;
+    if (body.data != undefined) {
+	    var launch = '{ "landTime" :' + parseInt(hashLaunches[body.data].time) + ', "polygon": ' + [[]] + ', "areaName": ' + body.data;
+        return JSON.parse(launch);
+    }
+    return;
     });
-}*/
+}
 
 // GCM
 // Registrations
@@ -94,37 +101,33 @@ router.post('/api/gcm/push', function(req, res) {
     });
 });
 
-// Update registration (tokenId only) ////////////////////
-router.put('/api/gcm/register', function(req, res) {
-    var sender = new gcm.Sender("AIzaSyDKFQ2fKhJJLhrj5d9JvViUD3SebRheeh0");
+router.post('/api/gcm/pushes', function(req, res) {
+    console.log("**************************************************"+req);
 
-    // Initialize Message object
-    var message = new gcm.Message();
-    message.addData('message', "No , i am the king");
-    
-    // Add the registration tokens of the devices you want to send to
-    var registrationTokens = [];
-    registrationTokens.push(req.body.registrationTokenId);
-    
+    registrations.find(function (err, registrations) {
+        var sender = new gcm.Sender("AIzaSyDKFQ2fKhJJLhrj5d9JvViUD3SebRheeh0");
 
-    // Send the message
-    // ... trying only once
-    sender.send(message, { registrationTokens: registrationTokens },10, function(err, response) {
-        if(err) console.error(err);
-        else {
-            console.log(response);
-            // res.json(response);
-        }
-    });
-    registrations.update({hardwareId : req.body.hardwareId}, req.body, function(err, result) {
-            // If everything's alright
-        if (!err && result.ok === 1) {
-            res.json({ code: 200});
-        } else {
-            res.json({error: 'something went wrong..'});
-            console.log(err, result);
-        }
-    });
+            // Initialize Message object
+            var message = new gcm.Message();
+            message.addData('message', req.body.message);
+            
+            // Add the registration tokens of the devices you want to send to
+            var registrationTokens = [];
+            registrations.forEach(function(registration){
+                registrationTokens.push(registration.registrationTokenId);
+            });
+            
+            // Send the message
+            // ... trying only once
+            sender.send(message, { registrationTokens: registrationTokens },10, function(err, response) {
+                if(err) console.error(err);
+                else {
+                    console.log(response);
+                    // res.json(response);
+                }
+            });
+    })
+    
 });
 
 
