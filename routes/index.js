@@ -46,7 +46,7 @@ router.get('/api/gcm/register', function(req, res) {
 
 router.post('/api/gcm/register', function(req, res) {
     console.log(req);
-    var sender = new gcm.Sender("AIzaSyCZR1nZ3Wzi2qJJhlhMz3mD74yiskjAmE4");
+    var sender = new gcm.Sender("AIzaSyDEtUKGuY3G1o-k7NxgJc8dt1Ppn-mxlSw");
 
     // Initialize Message object
     var message = new gcm.Message();
@@ -80,7 +80,7 @@ router.post('/api/gcm/register', function(req, res) {
 
 // Update registration (tokenId only) ////////////////////
 router.put('/api/gcm/register', function(req, res) {
-    var sender = new gcm.Sender("AIzaSyCZR1nZ3Wzi2qJJhlhMz3mD74yiskjAmE4");
+    var sender = new gcm.Sender("AIzaSyDEtUKGuY3G1o-k7NxgJc8dt1Ppn-mxlSw");
 
     // Initialize Message object
     var message = new gcm.Message();
