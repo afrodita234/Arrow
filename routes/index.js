@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose')
 var router = express.Router();
+var gcm = require('node-gcm');
 var request = require('request');
 
 /*var sendLaunch = function() {
@@ -56,7 +57,6 @@ router.post('/api/gcm/register', function(req, res) {
     var registrationTokens = [];
     registrationTokens.push(req.body.registrationTokenId);
     
-
     // Send the message
     // ... trying only once
     sender.send(message, { registrationTokens: registrationTokens },10, function(err, response) {
@@ -66,16 +66,16 @@ router.post('/api/gcm/register', function(req, res) {
             // res.json(response);
         }
     });
-    registrations.update({hardwareId : req.body.hardwareId},
-         req.body, {upsert:true}, function(err, result) {
-             if(!err) {
-                 console.log(result);
-                 res.json({ code: 201, message: 'registered successfully! :)' });
-             } else {
-                 console.log(err);
-                 res.json({ code: 400, message: 'Couldn\'t register... :(' });
-             }
-         });
+    // registrations.update({hardwareId : req.body.hardwareId},
+    //      req.body, {upsert:true}, function(err, result) {
+    //          if(!err) {
+    //              console.log(result);
+    //              res.json({ code: 201, message: 'registered successfully! :)' });
+    //          } else {
+    //              console.log(err);
+    //              res.json({ code: 400, message: 'Couldn\'t register... :(' });
+    //          }
+    //      });
 });
 
 // Update registration (tokenId only) ////////////////////
