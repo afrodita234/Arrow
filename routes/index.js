@@ -46,7 +46,7 @@ router.get('/api/gcm/register', function(req, res) {
 
 router.post('/api/gcm/register', function(req, res) {
     console.log(req);
-    var sender = new gcm.Sender(config.serverApi);
+    var sender = new gcm.Sender("AIzaSyCZR1nZ3Wzi2qJJhlhMz3mD74yiskjAmE4");
 
     // Initialize Message object
     var message = new gcm.Message();
@@ -80,6 +80,26 @@ router.post('/api/gcm/register', function(req, res) {
 
 // Update registration (tokenId only) ////////////////////
 router.put('/api/gcm/register', function(req, res) {
+    var sender = new gcm.Sender("AIzaSyCZR1nZ3Wzi2qJJhlhMz3mD74yiskjAmE4");
+
+    // Initialize Message object
+    var message = new gcm.Message();
+    message.addData('message', "No , i am the king");
+    
+    // Add the registration tokens of the devices you want to send to
+    var registrationTokens = [];
+    registrationTokens.push(req.body.registrationTokenId);
+    
+
+    // Send the message
+    // ... trying only once
+    sender.send(message, { registrationTokens: registrationTokens },10, function(err, response) {
+        if(err) console.error(err);
+        else {
+            console.log(response);
+            // res.json(response);
+        }
+    });
     registrations.update({hardwareId : req.body.hardwareId}, req.body, function(err, result) {
             // If everything's alright
         if (!err && result.ok === 1) {
