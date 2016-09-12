@@ -46,7 +46,7 @@ router.get('/api/gcm/register', function(req, res) {
 
 router.post('/api/gcm/register', function(req, res) {
     console.log(req);
-    registrations.update({hardwareId : req.body.hardwareId},
+    /*registrations.update({hardwareId : req.body.hardwareId},
          req.body, {upsert:true}, function(err, result) {
              if(!err) {
                  console.log(result);
@@ -55,7 +55,8 @@ router.post('/api/gcm/register', function(req, res) {
                  console.log(err);
                  res.json({ code: 400, message: 'Couldn\'t register... :(' });
              }
-         });
+         });*/
+    
 });
 
 // Update registration (tokenId only) ////////////////////
