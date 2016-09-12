@@ -4,30 +4,12 @@ var router = express.Router();
 var gcm = require('node-gcm');
 var request = require('request');
 
-/*var sendLaunch = function() {
-  request(
-    { method: 'POST', 
-    uri: 'https://android.googleapis.com/gcm/send',
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization':'key=AIzaSyCZR1nZ3Wzi2qJJhlhMz3mD74yiskjAmE4'
-    },
-    body: JSON.stringify({
-  "registration_ids" : ["1080513657347-95gs1co2j2snru91otauup2qgdrigv95.apps.googleusercontent.com"],
-  "data" : {
-    //TODO send actual data
-    "message":"No , I am your king"
-  },
-  "time_to_live": 108
-})
-    }
-  , function (error, response, body) {
-	  //callback({'response':"Success"});
-    console.log(body);
-    }
-  )
-};*/
+var options = {
+  user: 'admin',
+  pass: 'admin'
+}
 
+mongoose.connect('mongodb://ds147985.mlab.com:47985/arrow' , options);
 
 router.get('/', function(req, res, next) {
   //setInterval(function () { 
@@ -35,6 +17,23 @@ router.get('/', function(req, res, next) {
   //  }, 30000); 
   res.render('index', { title: 'Express' });
 });
+
+/*var getJson = function () {
+    //writeLog('getJson');
+    $.ajax({
+        url: "http://oref.co.il/WarningMessages/Alert/alerts.json?v=1",
+        dataType: "json",
+        cache: true,//true,
+        success: function (data) {
+            //writeLog("getJson : success : data = " + data.data);
+            // To Do : send launch
+        },
+        error: function (requestObject, error, errorThrown) {
+            //writeLog("getJson : error : data = " + errorThrown);
+            return;
+        }
+    });
+}*/
 
 // GCM
 // Registrations
@@ -46,12 +45,32 @@ router.get('/api/gcm/register', function(req, res) {
 });
 
 router.post('/api/gcm/register', function(req, res) {
+     registrations.update({hardwareId : req.body.hardwareId},
+          req.body, {upsert:true}, function(err, result) {
+              if(!err) {
+                  console.log(result);
+                  res.json({ code: 201, message: 'registered successfully! :)' });
+              } else {
+                  console.log(err);
+                  res.json({ code: 400, message: 'Couldn\'t register... :(' });
+              }
+          });
+});
+
+router.get('/api/users', function(req, res) {
+    registrations.find(function (err, registrations) { 
+        console.log("users are: " + registrations);
+    });
+});
+
+
+router.post('/api/gcm/push', function(req, res) {
     console.log("**************************************************"+req);
-    var sender = new gcm.Sender("AIzaSyDEtUKGuY3G1o-k7NxgJc8dt1Ppn-mxlSw");
+    var sender = new gcm.Sender("AIzaSyDKFQ2fKhJJLhrj5d9JvViUD3SebRheeh0");
 
     // Initialize Message object
     var message = new gcm.Message();
-    message.addData('message', "No , i am the king");
+    message.addData('message', req.body.message);
     
     // Add the registration tokens of the devices you want to send to
     var registrationTokens = [];
@@ -66,21 +85,11 @@ router.post('/api/gcm/register', function(req, res) {
             // res.json(response);
         }
     });
-    // registrations.update({hardwareId : req.body.hardwareId},
-    //      req.body, {upsert:true}, function(err, result) {
-    //          if(!err) {
-    //              console.log(result);
-    //              res.json({ code: 201, message: 'registered successfully! :)' });
-    //          } else {
-    //              console.log(err);
-    //              res.json({ code: 400, message: 'Couldn\'t register... :(' });
-    //          }
-    //      });
 });
 
 // Update registration (tokenId only) ////////////////////
 router.put('/api/gcm/register', function(req, res) {
-    var sender = new gcm.Sender("AIzaSyDEtUKGuY3G1o-k7NxgJc8dt1Ppn-mxlSw");
+    var sender = new gcm.Sender("AIzaSyDKFQ2fKhJJLhrj5d9JvViUD3SebRheeh0");
 
     // Initialize Message object
     var message = new gcm.Message();
