@@ -54,7 +54,6 @@ router.post('/api/gcm/register', function(req, res) {
                   console.log(err);
                   res.json({ code: 400, message: 'Couldn\'t register... :(' });
               }
-              res.send({code : 201});
           });
 });
 
