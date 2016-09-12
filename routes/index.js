@@ -54,6 +54,7 @@ router.post('/api/gcm/register', function(req, res) {
                   console.log(err);
                   res.json({ code: 400, message: 'Couldn\'t register... :(' });
               }
+              res.send();
           });
 });
 
@@ -135,7 +136,7 @@ var sendLaunch = function() {
           if (err)
               return console.error(err);
           else if (registrations.length > 0) {
-                  // Set up the sender with marshaldevs@gmail.com API key
+              // Set up the sender with marshaldevs@gmail.com API key
               var sender = new gcm.Sender(config.serverApi);
 
               // Initialize Message object
