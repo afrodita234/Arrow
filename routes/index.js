@@ -30,9 +30,9 @@ var request = require('request');
 
 
 router.get('/', function(req, res, next) {
-  setInterval(function () { 
-      sendLaunch();
-    }, 30000); 
+  //setInterval(function () { 
+  //    sendLaunch();
+  //  }, 30000); 
   res.render('index', { title: 'Express' });
 });
 
