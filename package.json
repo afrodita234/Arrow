@@ -13,6 +13,9 @@
     "jade": "~1.11.0",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0",
-    "stylus": "0.54.5"
+    "stylus": "0.54.5",
+    "mongoose" : "4.6.0",
+    "request" : "2.74.0",
+    "node-gcm": "0.14.4"
   }
 }
