@@ -21,6 +21,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/stuff', function(req, res, next) { 
+  res.send({"code" : 200 , "msg" : "hello"});
+});
+
 function getJson() {
     //writeLog('getJson');
     request('http://www.oref.org.il/WarningMessages/Alert/alerts.json?v=1', function (error, response, body) {
