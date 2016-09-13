@@ -52,6 +52,8 @@ router.get('/api/gcm/register', function(req, res) {
 });
 
 router.post('/api/gcm/register', function(req, res) {
+    console.log(req.body);
+
      registrations.update({hardwareId : req.body.hardwareId},
           req.body, {upsert:true}, function(err, result) {
               if(!err) {
@@ -61,6 +63,9 @@ router.post('/api/gcm/register', function(req, res) {
                   console.log(err);
                   res.json({ code: 400, message: 'Couldn\'t register... :(' });
               }
+
+              console.log(req.body);
+              req.send();
           });
 });
 
