@@ -103,7 +103,7 @@ router.post('/api/gcm/push', function(req, res) {
     message.addData('title', req.body.title);
     message.addData('areaName', req.body.areaName);
     message.addData('landTime', req.body.landTime);
-    
+    console.log(message);
     // Add the registration tokens of the devices you want to send to
     var registrationTokens = [];
     registrationTokens.push(req.body.registrationTokenId);
@@ -128,6 +128,9 @@ router.post('/api/gcm/pushes', function(req, res) {
             // Initialize Message object
             var message = new gcm.Message();
             message.addData('message', req.body.message);
+            message.addData('title', req.body.title);
+            message.addData('areaName', req.body.areaName);
+            message.addData('landTime', req.body.landTime);
             
             // Add the registration tokens of the devices you want to send to
             var registrationTokens = [];
