@@ -18,10 +18,12 @@ setInterval(function () {
 }, 2000);
 
 router.get('/', function(req, res, next) { 
+    console.log("------------ IM! HERE! BRO! ----------------");
   res.render('index', { title: 'Express' });
 });
 
 router.get('/stuff', function(req, res, next) { 
+console.log("------------ IM HERE BRO ----------------");
   res.send({"code" : 200 , "msg" : "hello"});
 });
 
