@@ -4,7 +4,8 @@ var router = express.Router();
 var gcm = require('node-gcm');
 var request = require('request');
 var launchesData = require('../data/launchesData');
-var sender = new gcm.Sender("AIzaSyDKFQ2fKhJJLhrj5d9JvViUD3SebRheeh0");
+var SERVER_KEY = "AIzaSyDKFQ2fKhJJLhrj5d9JvViUD3SebRheeh0"
+var sender = new gcm.Sender(SERVER_KEY);
 var options = {
   user: 'admin',
   pass: 'admin'
@@ -117,6 +118,8 @@ router.post('/api/gcm/push', function(req, res) {
             // res.json(response);
         }
     });
+
+    res.send({code : 201});
 });
 
 router.post('/api/gcm/pushes', function(req, res) {
@@ -149,6 +152,7 @@ router.post('/api/gcm/pushes', function(req, res) {
             });
     })
     
+    res.send({code : 201});
 });
 
 
