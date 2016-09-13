@@ -14,9 +14,9 @@ var options = {
 mongoose.connect('mongodb://ds147985.mlab.com:47985/arrow' , options);
 
 
-setInterval(function () { 
+/*setInterval(function () { 
     getJson();
-}, 2000);
+}, 2000);*/
 
 router.get('/', function(req, res, next) { 
     console.log("------------ IM! HERE! BRO! ----------------");
