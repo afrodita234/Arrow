@@ -10,6 +10,7 @@ var options = {
   pass: 'admin'
 }
 
+
 mongoose.connect('mongodb://ds147985.mlab.com:47985/arrow' , options);
 
 
@@ -185,5 +186,6 @@ var sendLaunch = function() {
               // res.json({noGcmRegistrations:true});
       });
 } 
+//end
 
 module.exports = router;
