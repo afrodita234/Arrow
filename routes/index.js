@@ -64,8 +64,8 @@ router.post('/api/gcm/register', function(req, res) {
                   res.json({ code: 400, message: 'Couldn\'t register... :(' });
               }
 
-              console.log(req.body);
-              req.send();
+              console.log(res.body);
+              res.send();
           });
 });
 
@@ -78,6 +78,8 @@ router.get('/api/users', function(req, res) {
             console.log(err);
             res.json({ code: 400, message: 'Couldn\'t register... :(' });
         }
+
+        console.log(res.body);
         res.send();
     });
 });
