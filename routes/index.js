@@ -14,9 +14,9 @@ var options = {
 mongoose.connect('mongodb://ds147985.mlab.com:47985/arrow' , options);
 
 
-/*setInterval(function () { 
+setInterval(function () { 
     getJson();
-}, 2000);*/
+}, 2000);
 
 router.get('/', function(req, res, next) { 
     console.log("------------ IM! HERE! BRO! ----------------");
@@ -99,6 +99,9 @@ router.post('/api/gcm/push', function(req, res) {
     // Initialize Message object
     var message = new gcm.Message();
     message.addData('message', req.body.message);
+    message.addData('title', req.body.title);
+    message.addData('areaName', req.body.areaName);
+    message.addData('landTime', req.body.landTime);
     
     // Add the registration tokens of the devices you want to send to
     var registrationTokens = [];
@@ -186,6 +189,5 @@ var sendLaunch = function() {
               // res.json({noGcmRegistrations:true});
       });
 } 
-//end
 
 module.exports = router;
