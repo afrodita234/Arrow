@@ -16,8 +16,8 @@ mongoose.connect('mongodb://ds147985.mlab.com:47985/arrow' , options);
 
 /*setInterval(function () { 
     getJson();
-}, 2000);
-*/
+}, 2000);*/
+
 router.get('/', function(req, res, next) { 
     console.log("------------ IM! HERE! BRO! ----------------");
   res.render('index', { title: 'Express' });
@@ -55,6 +55,7 @@ var GcmRegistrationSchema = mongoose.Schema(require('../models/GcmRegistrationSc
 var registrations = mongoose.model('gcmregistrations', GcmRegistrationSchema);
 
 router.get('/api/gcm/register', function(req, res) {
+    console.log("**************************************************");
     console.log("Works !!! ");
 });
 
@@ -72,7 +73,7 @@ router.post('/api/gcm/register', function(req, res) {
               }
 
               console.log(res.body);
-              //res.send();
+              res.send();
           });
 });
 
@@ -189,5 +190,6 @@ var sendLaunch = function() {
               // res.json({noGcmRegistrations:true});
       });
 } 
+//end
 
 module.exports = router;
