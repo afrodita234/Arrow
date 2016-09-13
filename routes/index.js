@@ -72,7 +72,7 @@ router.post('/api/gcm/register', function(req, res) {
               }
 
               console.log(res.body);
-              res.send();
+              //res.send();
           });
 });
 
